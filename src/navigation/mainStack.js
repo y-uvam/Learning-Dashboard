@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
 import { CourseDashboardScreen, CourseDetailsScreen, LoginScreen } from '../screens';
 import { Colors } from '../utils';
 import { routesConstants } from './routeConstants';
@@ -8,9 +9,16 @@ import { routesConstants } from './routeConstants';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export const MainStack = () => {
+  const { isAuthenticated, isRestoringSession } = useSelector((state) => state.auth);
+
+  if (isRestoringSession) {
+    return null;
+  }
+
   return (
     <Navigator
-      initialRouteName={routesConstants.Login}
+      key={isAuthenticated ? 'user-authenticated' : 'user-guest'}
+      initialRouteName={isAuthenticated ? routesConstants.CourseDashboard : routesConstants.Login}
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: Colors.background },

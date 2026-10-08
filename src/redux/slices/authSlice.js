@@ -38,6 +38,7 @@ const initialState = {
   user: null,
   token: null,
   isAuthenticated: false,
+  isRestoringSession: true,
   isLoading: false,
   error: null,
 };
@@ -68,11 +69,15 @@ const authSlice = createSlice({
     });
 
     builder.addCase(restoreSessionThunk.fulfilled, (state, action) => {
+      state.isRestoringSession = false;
       if (action.payload) {
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isAuthenticated = true;
       }
+    });
+    builder.addCase(restoreSessionThunk.rejected, (state) => {
+      state.isRestoringSession = false;
     });
 
     builder.addCase(logoutUserThunk.fulfilled, (state) => {

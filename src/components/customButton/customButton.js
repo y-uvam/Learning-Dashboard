@@ -54,41 +54,43 @@ export const CustomButton = ({
 
 const styles = StyleSheet.create({
   button: {
-    height: scales(52),
-    borderRadius: scales(12),
+    height: scales(54),
+    borderRadius: scales(14),
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: scales(20),
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
+    paddingHorizontal: scales(24),
+    shadowColor: '#4F46E5',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 3,
   },
   primaryButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: '#4F46E5',
   },
   outlineButton: {
-    backgroundColor: Colors.transparent,
+    backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: Colors.primary,
+    borderColor: '#4F46E5',
     elevation: 0,
     shadowOpacity: 0,
   },
   disabledButton: {
-    opacity: 0.6,
+    opacity: 0.65,
+    shadowOpacity: 0,
   },
   label: {
-    fontSize: scales(16),
+    fontSize: scales(15),
     fontFamily: fontFamily.semiBold,
     fontWeight: '600',
     textAlign: 'center',
+    letterSpacing: 0.3,
   },
   primaryLabel: {
-    color: Colors.white,
+    color: '#FFFFFF',
   },
   outlineLabel: {
-    color: Colors.primary,
+    color: '#4F46E5',
   },
 });
 

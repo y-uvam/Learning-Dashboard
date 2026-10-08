@@ -119,21 +119,37 @@ export const CourseDashboardScreen = ({ navigation }) => {
       {isOffline ? <OfflineBanner /> : null}
 
       <View style={styles.header}>
-        <View style={styles.headerTextContainer}>
-          <Text style={styles.appName}>{CommonText.appName}</Text>
-          <Text style={styles.headerTitle}>{CommonText.dashboardTitle}</Text>
-          <Text style={styles.headerSubtitle}>
-            {user?.name ? `Hello, ${user.name} 👋` : CommonText.dashboardSubtitle}
-          </Text>
+        <View style={styles.headerTopRow}>
+          <View style={styles.brandRow}>
+            <View style={styles.miniLogo}>
+              <Text style={styles.miniLogoText}>E</Text>
+            </View>
+            <View>
+              <Text style={styles.appName}>{CommonText.appName}</Text>
+              <Text style={styles.greetingText}>
+                {user?.name ? `Hello, ${user.name}` : CommonText.dashboardSubtitle}
+              </Text>
+            </View>
+          </View>
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.logoutButton}
+            onPress={handleLogout}
+          >
+            <Text style={styles.logoutText}>{CommonText.logout}</Text>
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.logoutButton}
-          onPress={handleLogout}
-        >
-          <Text style={styles.logoutText}>{CommonText.logout}</Text>
-        </TouchableOpacity>
+        <View style={styles.titleSection}>
+          <Text style={styles.headerTitle}>{CommonText.dashboardTitle}</Text>
+          <View style={styles.statsBadge}>
+            <View style={styles.liveIndicator} />
+            <Text style={styles.statsBadgeText}>
+              {courses?.length || 0} Courses Enrolled
+            </Text>
+          </View>
+        </View>
       </View>
 
       <View style={styles.contentContainer}>{renderContent()}</View>
@@ -144,60 +160,105 @@ export const CourseDashboardScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: '#F8FAFC',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: scales(20),
     paddingTop: scales(14),
     paddingBottom: scales(16),
-    backgroundColor: Colors.white,
+    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: '#E2E8F0',
   },
-  headerTextContainer: {
-    flex: 1,
+  headerTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: scales(16),
+  },
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  miniLogo: {
+    width: scales(34),
+    height: scales(34),
+    borderRadius: scales(10),
+    backgroundColor: '#4F46E5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: scales(10),
+  },
+  miniLogoText: {
+    fontSize: scales(16),
+    fontFamily: fontFamily.extraBold,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
   appName: {
-    fontSize: scales(12),
-    fontFamily: fontFamily.bold,
-    fontWeight: '700',
-    color: Colors.primary,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: scales(2),
-  },
-  headerTitle: {
-    fontSize: scales(22),
-    fontFamily: fontFamily.bold,
-    fontWeight: '700',
-    color: Colors.text,
-  },
-  headerSubtitle: {
     fontSize: scales(13),
+    fontFamily: fontFamily.bold,
+    fontWeight: '700',
+    color: '#0F172A',
+    letterSpacing: 0.3,
+  },
+  greetingText: {
+    fontSize: scales(12),
     fontFamily: fontFamily.regular,
-    color: Colors.textSecondary,
-    marginTop: scales(2),
+    color: '#64748B',
   },
   logoutButton: {
     paddingHorizontal: scales(12),
     paddingVertical: scales(6),
     borderRadius: scales(8),
-    backgroundColor: Colors.borderLight,
+    backgroundColor: '#F1F5F9',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
   },
   logoutText: {
     fontSize: scales(12),
-    fontFamily: fontFamily.medium,
+    fontFamily: fontFamily.semiBold,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: '#64748B',
+  },
+  titleSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: scales(22),
+    fontFamily: fontFamily.bold,
+    fontWeight: '700',
+    color: '#0F172A',
+    letterSpacing: -0.3,
+  },
+  statsBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EEF2FF',
+    paddingHorizontal: scales(10),
+    paddingVertical: scales(4),
+    borderRadius: scales(20),
+  },
+  liveIndicator: {
+    width: scales(6),
+    height: scales(6),
+    borderRadius: scales(3),
+    backgroundColor: '#4F46E5',
+    marginRight: scales(6),
+  },
+  statsBadgeText: {
+    fontSize: scales(11),
+    fontFamily: fontFamily.semiBold,
+    fontWeight: '600',
+    color: '#4F46E5',
   },
   contentContainer: {
     flex: 1,
   },
   listContent: {
-    paddingHorizontal: scales(18),
+    paddingHorizontal: scales(20),
     paddingTop: scales(16),
     paddingBottom: scales(30),
   },

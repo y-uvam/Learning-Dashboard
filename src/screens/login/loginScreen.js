@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -43,6 +44,15 @@ export const LoginScreen = ({ navigation }) => {
     }
   };
 
+  const handleFillDemo = () => {
+    setEmail('test@example.com');
+    setPassword('password123');
+    setFormErrors({});
+    if (error) {
+      dispatch(clearAuthError());
+    }
+  };
+
   const handleLogin = async () => {
     const validation = validateLoginForm(email, password);
     if (!validation.isValid) {
@@ -72,17 +82,30 @@ export const LoginScreen = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.header}>
-            <View style={styles.iconCircle}>
-              <Text style={styles.appIcon}>🎓</Text>
+          {/* Brand Header */}
+          <View style={styles.brandContainer}>
+            <View style={styles.logoBadge}>
+              <View style={styles.logoInner}>
+                <Text style={styles.logoLetter}>E</Text>
+              </View>
+            </View>
+            <View style={styles.brandTitleRow}>
+              <Text style={styles.brandName}>EduTrack</Text>
+              <View style={styles.proTag}>
+                <Text style={styles.proTagText}>STUDENT</Text>
+              </View>
             </View>
             <Text style={styles.title}>{CommonText.welcomeBack}</Text>
             <Text style={styles.subtitle}>{CommonText.loginSubtitle}</Text>
           </View>
 
+          {/* Login Card */}
           <View style={styles.card}>
             {error ? (
               <View style={styles.errorBanner}>
+                <View style={styles.errorIconCircle}>
+                  <Text style={styles.errorIconText}>!</Text>
+                </View>
                 <Text style={styles.errorBannerText}>{error}</Text>
               </View>
             ) : null}
@@ -113,9 +136,21 @@ export const LoginScreen = ({ navigation }) => {
               style={styles.loginButton}
             />
 
-            <View style={styles.hintContainer}>
-              <Text style={styles.hintText}>{CommonText.demoCredentialsHint}</Text>
-            </View>
+            {/* Quick Demo Credentials Chip */}
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={handleFillDemo}
+              style={styles.demoChip}
+            >
+              <Text style={styles.demoChipTitle}>Quick Demo</Text>
+              <Text style={styles.demoChipSub}>Tap to fill test credentials</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Trust & Security Footer */}
+          <View style={styles.footer}>
+            <View style={styles.securityDot} />
+            <Text style={styles.footerText}>Secure offline-first learning platform</Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -126,7 +161,7 @@ export const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: '#F8FAFC',
   },
   keyboardView: {
     flex: 1,
@@ -134,80 +169,171 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingHorizontal: scales(20),
-    paddingVertical: scales(30),
+    paddingHorizontal: scales(22),
+    paddingVertical: scales(24),
   },
-  header: {
+  brandContainer: {
     alignItems: 'center',
-    marginBottom: scales(28),
+    marginBottom: scales(24),
   },
-  iconCircle: {
-    width: scales(68),
-    height: scales(68),
-    borderRadius: scales(34),
-    backgroundColor: Colors.primaryLight,
+  logoBadge: {
+    width: scales(64),
+    height: scales(64),
+    borderRadius: scales(20),
+    backgroundColor: '#4F46E5',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: scales(14),
+    shadowColor: '#4F46E5',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 6,
   },
-  appIcon: {
-    fontSize: scales(32),
+  logoInner: {
+    width: scales(46),
+    height: scales(46),
+    borderRadius: scales(14),
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.35)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  title: {
-    fontSize: scales(26),
+  logoLetter: {
+    fontSize: scales(24),
+    fontFamily: fontFamily.extraBold,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    letterSpacing: -0.5,
+  },
+  brandTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: scales(8),
+  },
+  brandName: {
+    fontSize: scales(16),
     fontFamily: fontFamily.bold,
     fontWeight: '700',
-    color: Colors.text,
-    marginBottom: scales(6),
+    color: '#0F172A',
+    letterSpacing: 0.5,
+  },
+  proTag: {
+    backgroundColor: '#EEF2FF',
+    paddingHorizontal: scales(8),
+    paddingVertical: scales(2),
+    borderRadius: scales(6),
+    marginLeft: scales(8),
+  },
+  proTagText: {
+    fontSize: scales(10),
+    fontFamily: fontFamily.bold,
+    fontWeight: '700',
+    color: '#4F46E5',
+    letterSpacing: 0.8,
+  },
+  title: {
+    fontSize: scales(24),
+    fontFamily: fontFamily.bold,
+    fontWeight: '700',
+    color: '#0F172A',
+    marginBottom: scales(4),
     textAlign: 'center',
+    letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: scales(14),
+    fontSize: scales(13),
     fontFamily: fontFamily.regular,
-    color: Colors.textSecondary,
+    color: '#64748B',
     textAlign: 'center',
+    maxWidth: scales(280),
   },
   card: {
-    backgroundColor: Colors.white,
-    borderRadius: scales(20),
-    padding: scales(22),
+    backgroundColor: '#FFFFFF',
+    borderRadius: scales(22),
+    padding: scales(24),
     borderWidth: 1,
-    borderColor: Colors.border,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
+    borderColor: '#E2E8F0',
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.06,
+    shadowRadius: 20,
+    elevation: 4,
   },
   errorBanner: {
-    backgroundColor: Colors.errorLight,
-    borderRadius: scales(10),
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEF2F2',
+    borderRadius: scales(12),
     padding: scales(12),
     marginBottom: scales(16),
     borderWidth: 1,
     borderColor: '#FECACA',
   },
+  errorIconCircle: {
+    width: scales(20),
+    height: scales(20),
+    borderRadius: scales(10),
+    backgroundColor: '#EF4444',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: scales(10),
+  },
+  errorIconText: {
+    color: '#FFFFFF',
+    fontSize: scales(12),
+    fontWeight: '800',
+  },
   errorBannerText: {
-    fontSize: scales(13),
+    flex: 1,
+    fontSize: scales(12),
     fontFamily: fontFamily.medium,
-    color: Colors.error,
-    textAlign: 'center',
+    color: '#B91C1C',
+    lineHeight: scales(16),
   },
   loginButton: {
-    marginTop: scales(8),
+    marginTop: scales(4),
   },
-  hintContainer: {
-    marginTop: scales(18),
-    paddingTop: scales(14),
-    borderTopWidth: 1,
-    borderTopColor: Colors.borderLight,
+  demoChip: {
+    marginTop: scales(16),
+    paddingVertical: scales(10),
+    paddingHorizontal: scales(14),
+    borderRadius: scales(12),
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
     alignItems: 'center',
   },
-  hintText: {
+  demoChipTitle: {
     fontSize: scales(12),
+    fontFamily: fontFamily.semiBold,
+    fontWeight: '600',
+    color: '#4F46E5',
+    letterSpacing: 0.3,
+  },
+  demoChipSub: {
+    fontSize: scales(11),
     fontFamily: fontFamily.regular,
-    color: Colors.textSecondary,
-    textAlign: 'center',
+    color: '#94A3B8',
+    marginTop: scales(1),
+  },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: scales(24),
+  },
+  securityDot: {
+    width: scales(6),
+    height: scales(6),
+    borderRadius: scales(3),
+    backgroundColor: '#10B981',
+    marginRight: scales(8),
+  },
+  footerText: {
+    fontSize: scales(12),
+    fontFamily: fontFamily.medium,
+    color: '#94A3B8',
   },
 });
 

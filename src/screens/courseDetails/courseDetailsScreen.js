@@ -105,7 +105,8 @@ export const CourseDetailsScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.hintContainer}>
-          <Text style={styles.hintText}>💡 {CommonText.tapToToggleHint}</Text>
+          <View style={styles.hintDot} />
+          <Text style={styles.hintText}>{CommonText.tapToToggleHint}</Text>
         </View>
       </View>
 
@@ -225,13 +226,25 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
   },
   hintContainer: {
-    marginTop: scales(12),
+    marginTop: scales(14),
+    flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: scales(12),
+    paddingVertical: scales(8),
+    borderRadius: scales(10),
+  },
+  hintDot: {
+    width: scales(6),
+    height: scales(6),
+    borderRadius: scales(3),
+    backgroundColor: '#4F46E5',
+    marginRight: scales(8),
   },
   hintText: {
     fontSize: scales(12),
     fontFamily: fontFamily.medium,
-    color: Colors.textSecondary,
+    color: '#475569',
   },
   sectionHeader: {
     flexDirection: 'row',

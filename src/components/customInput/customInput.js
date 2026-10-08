@@ -24,6 +24,7 @@ export const CustomInput = ({
   inputStyle,
 }) => {
   const [isSecure, setIsSecure] = useState(isPassword);
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -32,6 +33,7 @@ export const CustomInput = ({
       <View
         style={[
           styles.inputWrapper,
+          isFocused ? styles.inputFocused : null,
           error ? styles.inputError : null,
           !editable && styles.inputDisabled,
         ]}
@@ -48,76 +50,107 @@ export const CustomInput = ({
           autoCorrect={false}
           editable={editable}
           maxLength={maxLength}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
 
         {isPassword ? (
           <TouchableOpacity
-            style={styles.eyeButton}
+            style={styles.togglePill}
             onPress={() => setIsSecure((prev) => !prev)}
             activeOpacity={0.7}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
-            <Text style={styles.eyeText}>{isSecure ? '👁️ Show' : '🙈 Hide'}</Text>
+            <Text style={styles.toggleText}>{isSecure ? 'SHOW' : 'HIDE'}</Text>
           </TouchableOpacity>
         ) : null}
       </View>
 
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorDot}>•</Text>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: scales(16),
+    marginBottom: scales(18),
     width: '100%',
   },
   label: {
-    fontSize: scales(14),
+    fontSize: scales(13),
     fontFamily: fontFamily.medium,
     fontWeight: '600',
-    color: Colors.text,
-    marginBottom: scales(6),
+    color: '#334155',
+    marginBottom: scales(7),
+    letterSpacing: 0.2,
   },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.white,
+    backgroundColor: '#F8FAFC',
     borderWidth: 1.5,
-    borderColor: Colors.border,
-    borderRadius: scales(12),
-    paddingHorizontal: scales(14),
-    height: scales(52),
+    borderColor: '#E2E8F0',
+    borderRadius: scales(14),
+    paddingHorizontal: scales(16),
+    height: scales(54),
+  },
+  inputFocused: {
+    borderColor: '#4F46E5',
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#4F46E5',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 2,
   },
   input: {
     flex: 1,
     fontSize: scales(15),
     fontFamily: fontFamily.regular,
-    color: Colors.text,
+    color: '#0F172A',
     paddingVertical: 0,
   },
   inputError: {
-    borderColor: Colors.error,
+    borderColor: '#EF4444',
     backgroundColor: '#FFF8F8',
   },
   inputDisabled: {
-    backgroundColor: Colors.background,
+    backgroundColor: '#F1F5F9',
     opacity: 0.7,
   },
-  eyeButton: {
-    paddingLeft: scales(8),
-    paddingVertical: scales(6),
+  togglePill: {
+    paddingHorizontal: scales(10),
+    paddingVertical: scales(5),
+    borderRadius: scales(8),
+    backgroundColor: '#EEF2FF',
   },
-  eyeText: {
-    fontSize: scales(12),
-    fontFamily: fontFamily.medium,
-    color: Colors.textSecondary,
+  toggleText: {
+    fontSize: scales(11),
+    fontFamily: fontFamily.bold,
+    fontWeight: '700',
+    color: '#4F46E5',
+    letterSpacing: 0.5,
+  },
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: scales(6),
+    marginLeft: scales(2),
+  },
+  errorDot: {
+    color: '#EF4444',
+    fontSize: scales(14),
+    marginRight: scales(4),
   },
   errorText: {
     fontSize: scales(12),
-    fontFamily: fontFamily.regular,
-    color: Colors.error,
-    marginTop: scales(4),
-    marginLeft: scales(2),
+    fontFamily: fontFamily.medium,
+    color: '#EF4444',
   },
 });
 

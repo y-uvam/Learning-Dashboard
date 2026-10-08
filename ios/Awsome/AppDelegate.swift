@@ -21,15 +21,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     reactNativeDelegate = delegate
     reactNativeFactory = factory
 
-    window = UIWindow(frame: UIScreen.main.bounds)
-
-    factory.startReactNative(
-      withModuleName: "Awsome",
-      in: window,
-      launchOptions: launchOptions
-    )
-
     return true
+  }
+
+  // MARK: UISceneSession Lifecycle
+  func application(
+    _ application: UIApplication,
+    configurationForConnecting connectingSceneSession: UISceneSession,
+    options: UIScene.ConnectionOptions
+  ) -> UISceneConfiguration {
+    let configuration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    configuration.delegateClass = SceneDelegate.self
+    return configuration
+  }
+}
+
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+  var window: UIWindow?
+
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
+    guard let windowScene = (scene as? UIWindowScene) else { return }
+
+    let window = UIWindow(windowScene: windowScene)
+    self.window = window
+
+    if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+       let factory = appDelegate.reactNativeFactory {
+      factory.startReactNative(
+        withModuleName: "Awsome",
+        in: window,
+        launchOptions: nil
+      )
+      appDelegate.window = window
+    }
+
+    window.makeKeyAndVisible()
   }
 }
 
