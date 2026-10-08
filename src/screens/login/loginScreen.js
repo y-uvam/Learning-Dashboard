@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,21 +7,21 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
-import { fontFamily } from '../../assets';
-import { CustomButton, CustomInput } from '../../components';
-import { routesConstants } from '../../navigation/routeConstants';
-import { clearAuthError, loginUserThunk } from '../../redux/slices/authSlice';
-import { Colors, CommonText, scales, validateLoginForm } from '../../utils';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import { fontFamily } from "../../assets";
+import { CustomButton, CustomInput } from "../../components";
+import { routesConstants } from "../../navigation/routeConstants";
+import { clearAuthError, loginUserThunk } from "../../redux/slices/authSlice";
+import { Colors, CommonText, scales, validateLoginForm } from "../../utils";
 
 export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.auth);
 
-  const [email, setEmail] = useState('test@example.com');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState("test@example.com");
+  const [password, setPassword] = useState("password123");
   const [formErrors, setFormErrors] = useState({});
 
   const handleEmailChange = (text) => {
@@ -45,8 +45,8 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   const handleFillDemo = () => {
-    setEmail('test@example.com');
-    setPassword('password123');
+    setEmail("test@example.com");
+    setPassword("password123");
     setFormErrors({});
     if (error) {
       dispatch(clearAuthError());
@@ -61,20 +61,13 @@ export const LoginScreen = ({ navigation }) => {
     }
 
     setFormErrors({});
-    const resultAction = await dispatch(loginUserThunk({ email, password }));
-
-    if (loginUserThunk.fulfilled.match(resultAction)) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: routesConstants.CourseDashboard }],
-      });
-    }
+    await dispatch(loginUserThunk({ email, password }));
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.keyboardView}
       >
         <ScrollView
@@ -143,14 +136,18 @@ export const LoginScreen = ({ navigation }) => {
               style={styles.demoChip}
             >
               <Text style={styles.demoChipTitle}>Quick Demo</Text>
-              <Text style={styles.demoChipSub}>Tap to fill test credentials</Text>
+              <Text style={styles.demoChipSub}>
+                Tap to fill test credentials
+              </Text>
             </TouchableOpacity>
           </View>
 
           {/* Trust & Security Footer */}
           <View style={styles.footer}>
             <View style={styles.securityDot} />
-            <Text style={styles.footerText}>Secure offline-first learning platform</Text>
+            <Text style={styles.footerText}>
+              Secure offline-first learning platform
+            </Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -161,30 +158,30 @@ export const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: "#F8FAFC",
   },
   keyboardView: {
     flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: scales(22),
     paddingVertical: scales(24),
   },
   brandContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: scales(24),
   },
   logoBadge: {
     width: scales(64),
     height: scales(64),
     borderRadius: scales(20),
-    backgroundColor: '#4F46E5',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#4F46E5",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: scales(14),
-    shadowColor: '#4F46E5',
+    shadowColor: "#4F46E5",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,
     shadowRadius: 10,
@@ -195,31 +192,31 @@ const styles = StyleSheet.create({
     height: scales(46),
     borderRadius: scales(14),
     borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.35)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: "rgba(255, 255, 255, 0.35)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   logoLetter: {
     fontSize: scales(24),
     fontFamily: fontFamily.extraBold,
-    fontWeight: '800',
-    color: '#FFFFFF',
+    fontWeight: "800",
+    color: "#FFFFFF",
     letterSpacing: -0.5,
   },
   brandTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: scales(8),
   },
   brandName: {
     fontSize: scales(16),
     fontFamily: fontFamily.bold,
-    fontWeight: '700',
-    color: '#0F172A',
+    fontWeight: "700",
+    color: "#0F172A",
     letterSpacing: 0.5,
   },
   proTag: {
-    backgroundColor: '#EEF2FF',
+    backgroundColor: "#EEF2FF",
     paddingHorizontal: scales(8),
     paddingVertical: scales(2),
     borderRadius: scales(6),
@@ -228,67 +225,67 @@ const styles = StyleSheet.create({
   proTagText: {
     fontSize: scales(10),
     fontFamily: fontFamily.bold,
-    fontWeight: '700',
-    color: '#4F46E5',
+    fontWeight: "700",
+    color: "#4F46E5",
     letterSpacing: 0.8,
   },
   title: {
     fontSize: scales(24),
     fontFamily: fontFamily.bold,
-    fontWeight: '700',
-    color: '#0F172A',
+    fontWeight: "700",
+    color: "#0F172A",
     marginBottom: scales(4),
-    textAlign: 'center',
+    textAlign: "center",
     letterSpacing: -0.3,
   },
   subtitle: {
     fontSize: scales(13),
     fontFamily: fontFamily.regular,
-    color: '#64748B',
-    textAlign: 'center',
+    color: "#64748B",
+    textAlign: "center",
     maxWidth: scales(280),
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: scales(22),
     padding: scales(24),
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    shadowColor: '#0F172A',
+    borderColor: "#E2E8F0",
+    shadowColor: "#0F172A",
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.06,
     shadowRadius: 20,
     elevation: 4,
   },
   errorBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FEF2F2',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FEF2F2",
     borderRadius: scales(12),
     padding: scales(12),
     marginBottom: scales(16),
     borderWidth: 1,
-    borderColor: '#FECACA',
+    borderColor: "#FECACA",
   },
   errorIconCircle: {
     width: scales(20),
     height: scales(20),
     borderRadius: scales(10),
-    backgroundColor: '#EF4444',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#EF4444",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: scales(10),
   },
   errorIconText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: scales(12),
-    fontWeight: '800',
+    fontWeight: "800",
   },
   errorBannerText: {
     flex: 1,
     fontSize: scales(12),
     fontFamily: fontFamily.medium,
-    color: '#B91C1C',
+    color: "#B91C1C",
     lineHeight: scales(16),
   },
   loginButton: {
@@ -299,41 +296,41 @@ const styles = StyleSheet.create({
     paddingVertical: scales(10),
     paddingHorizontal: scales(14),
     borderRadius: scales(12),
-    backgroundColor: '#F8FAFC',
+    backgroundColor: "#F8FAFC",
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    alignItems: 'center',
+    borderColor: "#E2E8F0",
+    alignItems: "center",
   },
   demoChipTitle: {
     fontSize: scales(12),
     fontFamily: fontFamily.semiBold,
-    fontWeight: '600',
-    color: '#4F46E5',
+    fontWeight: "600",
+    color: "#4F46E5",
     letterSpacing: 0.3,
   },
   demoChipSub: {
     fontSize: scales(11),
     fontFamily: fontFamily.regular,
-    color: '#94A3B8',
+    color: "#94A3B8",
     marginTop: scales(1),
   },
   footer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: scales(24),
   },
   securityDot: {
     width: scales(6),
     height: scales(6),
     borderRadius: scales(3),
-    backgroundColor: '#10B981',
+    backgroundColor: "#10B981",
     marginRight: scales(8),
   },
   footerText: {
     fontSize: scales(12),
     fontFamily: fontFamily.medium,
-    color: '#94A3B8',
+    color: "#94A3B8",
   },
 });
 

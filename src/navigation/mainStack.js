@@ -17,8 +17,6 @@ export const MainStack = () => {
 
   return (
     <Navigator
-      key={isAuthenticated ? 'user-authenticated' : 'user-guest'}
-      initialRouteName={isAuthenticated ? routesConstants.CourseDashboard : routesConstants.Login}
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: Colors.background },
@@ -26,9 +24,14 @@ export const MainStack = () => {
         orientation: Platform.OS === 'ios' ? 'portrait' : undefined,
       }}
     >
-      <Screen name={routesConstants.Login} component={LoginScreen} />
-      <Screen name={routesConstants.CourseDashboard} component={CourseDashboardScreen} />
-      <Screen name={routesConstants.CourseDetails} component={CourseDetailsScreen} />
+      {isAuthenticated ? (
+        <>
+          <Screen name={routesConstants.CourseDashboard} component={CourseDashboardScreen} />
+          <Screen name={routesConstants.CourseDetails} component={CourseDetailsScreen} />
+        </>
+      ) : (
+        <Screen name={routesConstants.Login} component={LoginScreen} />
+      )}
     </Navigator>
   );
 };

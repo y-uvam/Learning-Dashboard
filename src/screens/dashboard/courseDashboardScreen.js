@@ -59,10 +59,6 @@ export const CourseDashboardScreen = ({ navigation }) => {
 
   const handleLogout = () => {
     dispatch(logoutUserThunk());
-    navigation.reset({
-      index: 0,
-      routes: [{ name: routesConstants.Login }],
-    });
   };
 
   const renderContent = () => {
